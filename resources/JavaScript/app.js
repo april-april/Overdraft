@@ -30,4 +30,36 @@ var UIController = (function() {
 
 var controller = (function(budgetCtrl, UICtrl) {
 
+    var setupEventListeners = function() {
+        var DOM = UICtrl.getDOMstrings();
+        
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+
+        document.addEventListener('keypress', function(event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+        });
+        
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+        
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);        
+    };
+    
+    return {
+        init: function() {
+            console.log('Application has started.');
+            UICtrl.displayMonth();
+            UICtrl.displayBudget({
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0,
+                percentage: -1
+            });
+            setupEventListeners();
+        }
+    };
+
 })(budgetController, UIController)
+
+controller.init();
